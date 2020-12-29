@@ -1,4 +1,10 @@
 {
+  "ConnectionManager": {
+    "description": "Auto imported from components/ConnectionManager.vue"
+  },
+  "LazyConnectionManager": {
+    "description": "Auto imported from components/ConnectionManager.vue"
+  },
   "MyFeed": {
     "description": "Auto imported from components/MyFeed.vue"
   },
