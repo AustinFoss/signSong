@@ -10,7 +10,10 @@
         <v-row>
           <v-col>
             <v-card>
-              <v-card-title>Peer Connections: {{p2pNode.connectionManager.size}}</v-card-title>
+              <v-card-title>Channel Manager</v-card-title>
+              <v-card-text>
+                Peer Connections: {{p2pNode.connectionManager.size}}
+              </v-card-text>
               <v-text-field v-model="chatChannel" label="Channel Name"/>
               <v-btn
                 color="primary"
@@ -30,9 +33,9 @@
                     @click='changeChannel(channel)' 
                     color="primary"
                   >
-                    Open Channel
+                    Open
                   </v-btn>
-                  <v-btn v-else @click='changeChannel(null)'>Close Channel</v-btn>
+                  <v-btn v-else @click='changeChannel(null)'>Close</v-btn>
                   <v-btn @click="unsubscribe(channel)" color="red">Forget</v-btn>
                 </v-list-item>
               </v-list>
