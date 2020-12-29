@@ -1,0 +1,14 @@
+{
+  "MyFeed": {
+    "description": "Auto imported from components/MyFeed.vue"
+  },
+  "LazyMyFeed": {
+    "description": "Auto imported from components/MyFeed.vue"
+  },
+  "OpenChannel": {
+    "description": "Auto imported from components/OpenChannel.vue"
+  },
+  "LazyOpenChannel": {
+    "description": "Auto imported from components/OpenChannel.vue"
+  }
+}
