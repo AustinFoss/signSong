@@ -4,6 +4,7 @@
         <v-card-text>
             Peer Connections: {{p2pNode.connectionManager.size}}
         </v-card-text>
+        
         <v-card-actions>
             <v-text-field v-model="chatChannel" label="Channel Name"/>
             <v-btn
@@ -15,6 +16,7 @@
                 Subscribe
             </v-btn>
         </v-card-actions>
+
         <v-list dense>
             <v-list-item 
                 v-for="(channel, index) in channels" 
@@ -35,6 +37,7 @@
                 <v-btn @click="unsubscribe(channel)" color="red" outlined small>Forget</v-btn>
             </v-list-item>
         </v-list>
+
     </v-card>
 
 </template>
