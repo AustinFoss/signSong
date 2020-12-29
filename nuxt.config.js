@@ -7,6 +7,8 @@ export default {
   // Disable server-side rendering (https://go.nuxtjs.dev/ssr-mode)
   ssr: false,
 
+  mode: 'spa',
+
   // Target (https://go.nuxtjs.dev/config-target)
   target: 'static',
 
