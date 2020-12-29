@@ -6,7 +6,7 @@
     "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
-    "generate": "nuxt build && nuxt generate"
+    "generate": "nuxt build --spa --target-static && nuxt generate"
   },
   "dependencies": {
     "@nuxtjs/composition-api": "^0.17.0",
