@@ -79,7 +79,7 @@ export default {
                     listen: [
                         '/ip4/0.0.0.0/tcp/0',
                         '/ip4/0.0.0.0/tcp/0/ws',  
-                        '/ip4/192.168.7.105/tcp/9090/wss/p2p-webrtc-star',                  
+                        // '/ip4/192.168.7.105/tcp/9090/wss/p2p-webrtc-star',                  
                         '/dns4/wrtc-star1.par.dwebops.pub/tcp/443/wss/p2p-webrtc-star',
                         '/dns4/wrtc-star2.sjc.dwebops.pub/tcp/443/wss/p2p-webrtc-star'
                     ]
