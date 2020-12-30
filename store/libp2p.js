@@ -24,6 +24,7 @@ export default {
         channels: [],
         openChannel: null,
         messageBoard: [],
+        video: false,
         bootstrapList:  [
             '/dnsaddr/bootstrap.libp2p.io/p2p/QmNnooDu7bfjPFoTZYxMNLWUQJyrVwtbZg5gBMjTezGAJN',
             '/dnsaddr/bootstrap.libp2p.io/p2p/QmbLHAnMoJPWSCR5Zhtx6BHJX9KiKNN6tpvbUcqanj75Nb',
@@ -69,6 +70,9 @@ export default {
         },
         messageBoard: (state, message) => {
             state.messageBoard.push(message);            
+        },
+        videoFeed: (state) => {
+            state.video = !state.video;
         }
     },
     actions: {
@@ -89,7 +93,7 @@ export default {
                     connEncryption: [NOISE, Secio],
                     streamMuxer: [Mplex],
                     peerDiscovery: [Boostrap],
-                    pubsub: Floodsub
+                    pubsub: Gossipsub
                 },
                 config: {
                     peerDiscovery: {
@@ -101,25 +105,25 @@ export default {
                 }
             })
             // Update Node
-            commit('syncNode', libp2p)
+            commit('syncNode', libp2p);
 
             // Listen for new peers
             libp2p.on('peer:discovery', (peerId) => {
-                commit('syncNode', libp2p)
+                commit('syncNode', libp2p);
                 // console.log(`Found peer ${peerId.toB58String()}`)
-            })
+            });
     
             // Listen for new connections to peers
             libp2p.connectionManager.on('peer:connect', (connection) => {
-                commit('syncNode', libp2p)
+                commit('syncNode', libp2p);
                 // console.log(`Connected to ${connection.remotePeer.toB58String()}`)
-            })
+            });
     
             // Listen for peers disconnecting
             libp2p.connectionManager.on('peer:disconnect', (connection) => {
-                commit('syncNode', libp2p)           
+                commit('syncNode', libp2p);    
                 // console.log(`Disconnected from ${connection.remotePeer.toB58String()}`)
-            })
+            });
 
             await libp2p.start()
         },
@@ -145,8 +149,11 @@ export default {
         },
         checkChannel: ({state, commit}) => {
             const checkCheck = setInterval(() => {
-
-                state.p2pNode.pubsub.publish(state.openChannel, Uint8Array.from('Nick Name'));
+                let message = {
+                    name: "Nick Name",
+                    videoStream: state.video
+                }
+                state.p2pNode.pubsub.publish(state.openChannel, JSON.stringify(message));
                 state.channelPeers.forEach(async (value, key) => {
                     if(value.stream != null) {
                         pipe(
@@ -169,7 +176,7 @@ export default {
                     clearInterval(checkCheck);
                 }
 
-            }, 1000)
+            }, 1000);
         },
         dialPeer: async ({state, commit}, peer) => {
             let dialerID = state.p2pNode.peerId.toB58String();
@@ -182,10 +189,11 @@ export default {
         handlePeer: ({state, commit}, peer) => {
             state.p2pNode.handle('/'+peer, async ({ stream }) => {
                 commit('peerStream', {peer: peer, stream:stream});
-            })     
+            }); 
         },
         subscribedChannel: ({state, commit, dispatch}) => {
             subscribedChannel.on('received', (msg) => {
+                let message = JSON.parse(msg.data.toString());
                 if(state.channelPeers.has(msg.from) == false) {
                     // TODO: insert a second if 
                     // checking for a signature of the priv.Key associated with the channel name(pub.Key)
@@ -194,7 +202,10 @@ export default {
                 } else if(state.channelPeers.get(msg.from).stream == null) {
                     dispatch('dialPeer', msg.from);
                 }
-            })
+                if(message.video == true) {
+
+                }
+            });
         },
         textChannel: ({state, commit}, chat) => {
             let msg = chat;
@@ -209,9 +220,12 @@ export default {
                     chat,
                     lp.encode(),
                     stream
-                )
+                );
                 commit('messageBoard', {line: chat, from: dialerID})
             });
+        },
+        videoFeed: ({state, commit}) => {
+            commit('videoFeed');
         }
     }
 }

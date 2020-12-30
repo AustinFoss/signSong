@@ -1,11 +1,7 @@
 <template>
- 
-    <v-card>
-        <v-card-title class="headline">
-        My Feed
-        </v-card-title>
+    <div>
         
-        <video style="max-width: 100%;" id="feed" controls autoplay muted/>
+        <video style="max-width: 100%;" id="feed" autoplay muted/>
         
         <v-card-actions>
             <v-select
@@ -23,13 +19,14 @@
             />
             <v-btn 
             color='primary' 
+            outlined
+            small
             @click='feedStream()'
             >
                 Stream
             </v-btn>
         </v-card-actions>
-    </v-card>
-
+    </div>
 </template>
 
 <script>
